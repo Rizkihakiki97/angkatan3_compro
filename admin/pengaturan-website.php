@@ -29,8 +29,11 @@ if (isset($_POST['simpan'])) {
                 echo "Gunakan Foto Lain";
                 die;
             } else {
+                // pindahkan  gambar dari tmp folder ke folder yang sudah kita buat
+                // unlink() : mendelete file
+                unlink('upload/' . $rowPengaturan['logo']);
                 move_uploaded_file($_FILES['foto']['tmp_name'], 'upload/' . $nama_foto);  //memindahkan foto ke folder upload
-                $update = mysqli_query($koneksi, "UPDATE general_setting SET website_name='$website_name', website_link='$website_link', website_phone ='$website_phone', website_email='$website_email', website_address='$website_address' WHERE id = '$id'");
+                $update = mysqli_query($koneksi, "UPDATE general_setting SET website_name='$website_name', website_link='$website_link', website_phone ='$website_phone', website_email='$website_email', website_address='$website_address', logo='$nama_foto' WHERE id = '$id'");
             }
         } else {
             // sql = structur query languages / DML = data manipulation language
@@ -189,25 +192,33 @@ if (isset($_POST['edit'])) {
                                                 <div class="col-sm-6">
                                                     <div class="mb-3">
                                                         <label for="" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" name="website_email" placeholder="Masukkan Website Email Anda" required value="<?php echo isset($rowPengaturan['website_eamil']) ? $rowPengaturan['website_email'] : '' ?> ">
+                                                        <input type="email" class="form-control" name="website_email" placeholder="Masukkan Website Email Anda" required value="<?php echo isset($rowPengaturan['website_email']) ? $rowPengaturan['website_email'] : '' ?> ">
                                                     </div>
                                                 </div>
                                             </div>
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <div class="col-sm-6">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Foto</label>
-                                                <input type="file" name="foto">
+                                            <div class="mb-3 row">
+                                                <div class="col-sm-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Foto</label>
+                                                        <input class="form-control" type="file" name="foto">
+                                                        <style>
+                                                            .upload-foto-pengaturan-website {
+                                                                border-radius: 10px;
+                                                                width: 100%;
+                                                                border: solid 1px black;
+                                                            }
+                                                        </style>
+                                                        <img class="upload-foto-pengaturan-website mt-3" width="100" src="upload/<?php echo isset($rowPengaturan['logo']) ? $rowPengaturan['logo'] : '' ?>" alt="">
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
+                                            <div class="mb-3">
+                                                <button class="btn btn-primary" name="<?php echo isset($_GET['edit']) ? 'edit' : 'simpan' ?>" type="submit">
+                                                    Simpan
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <div class="mb-3">
-                                        <button class="btn btn-primary" name="<?php echo isset($_GET['edit']) ? 'edit' : 'simpan' ?>" type="submit">
-                                            Simpan
-                                        </button>
-                                    </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>
