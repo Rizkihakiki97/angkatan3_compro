@@ -92,35 +92,53 @@
                         tabindex="0"></iframe>
                 </div>
                 <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-                    <form>
+                    <?php
+                    if (isset($_GET['status']) && $_GET['status'] == "success") {
+                    ?>
+                        <div class="alert alert-success" role="alert">Data berhasil dikirim, dan tunggu balasannya!</div>
+
+                    <?php
+                    } elseif (isset($_GET['status']) && $_GET['status'] == "email-sudahada") {
+                    ?>
+                        <div class="alert alert-danger" role="alert">Email sudah digunakan, anda hanya bisa mengirim pesan
+                            satu kali saja!</div>
+                    <?php
+                    }
+                    ?>
+                    <form method="POST" action="contact-controller/insert-contact.php">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                    <input required type="text" class="form-control" name="name" id="name"
+                                        placeholder="Your Name">
                                     <label for="name">Your Name</label>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                    <input required type="email" class="form-control" name="email" id="email"
+                                        placeholder="Your Email">
                                     <label for="email">Your Email</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                    <input required type="text" class="form-control" name="subject" id="subject"
+                                        placeholder="Subject">
                                     <label for="subject">Subject</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Leave a message here" id="message"
+                                    <textarea required class="form-control" name="message"
+                                        placeholder="Leave a message here" id="message"
                                         style="height: 150px"></textarea>
                                     <label for="message">Message</label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                <button name="send-bro" class="btn btn-primary w-100 py-3" type="submit">Send
+                                    Message</button>
                             </div>
                         </div>
                     </form>
